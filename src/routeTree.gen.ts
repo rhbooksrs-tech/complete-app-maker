@@ -13,6 +13,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated.index'
 import { Route as AuthenticatedCategoriasRouteImport } from './routes/_authenticated.categorias'
+import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authenticated.configuracoes'
 import { Route as AuthenticatedContasAPagarRouteImport } from './routes/_authenticated.contas-a-pagar'
 import { Route as AuthenticatedContasAReceberRouteImport } from './routes/_authenticated.contas-a-receber'
 import { Route as AuthenticatedDicasRouteImport } from './routes/_authenticated.dicas'
@@ -40,6 +41,12 @@ const AuthenticatedCategoriasRoute = AuthenticatedCategoriasRouteImport.update({
   path: '/categorias',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedConfiguracoesRoute =
+  AuthenticatedConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedContasAPagarRoute =
   AuthenticatedContasAPagarRouteImport.update({
     id: '/contas-a-pagar',
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRoute
   '/categorias': typeof AuthenticatedCategoriasRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
   '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
   '/dicas': typeof AuthenticatedDicasRoute
@@ -96,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/categorias': typeof AuthenticatedCategoriasRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
   '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
   '/dicas': typeof AuthenticatedDicasRoute
@@ -110,6 +119,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/categorias': typeof AuthenticatedCategoriasRoute
+  '/_authenticated/configuracoes': typeof AuthenticatedConfiguracoesRoute
   '/_authenticated/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/_authenticated/contas-a-receber': typeof AuthenticatedContasAReceberRoute
   '/_authenticated/dicas': typeof AuthenticatedDicasRoute
@@ -125,6 +135,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/categorias'
+    | '/configuracoes'
     | '/contas-a-pagar'
     | '/contas-a-receber'
     | '/dicas'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   to:
     | '/auth'
     | '/categorias'
+    | '/configuracoes'
     | '/contas-a-pagar'
     | '/contas-a-receber'
     | '/dicas'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/categorias'
+    | '/_authenticated/configuracoes'
     | '/_authenticated/contas-a-pagar'
     | '/_authenticated/contas-a-receber'
     | '/_authenticated/dicas'
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       path: '/categorias'
       fullPath: '/categorias'
       preLoaderRoute: typeof AuthenticatedCategoriasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/configuracoes': {
+      id: '/_authenticated/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/contas-a-pagar': {
@@ -248,6 +268,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedCategoriasRoute: typeof AuthenticatedCategoriasRoute
+  AuthenticatedConfiguracoesRoute: typeof AuthenticatedConfiguracoesRoute
   AuthenticatedContasAPagarRoute: typeof AuthenticatedContasAPagarRoute
   AuthenticatedContasAReceberRoute: typeof AuthenticatedContasAReceberRoute
   AuthenticatedDicasRoute: typeof AuthenticatedDicasRoute
@@ -260,6 +281,7 @@ interface AuthenticatedRouteChildren {
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedCategoriasRoute: AuthenticatedCategoriasRoute,
+  AuthenticatedConfiguracoesRoute: AuthenticatedConfiguracoesRoute,
   AuthenticatedContasAPagarRoute: AuthenticatedContasAPagarRoute,
   AuthenticatedContasAReceberRoute: AuthenticatedContasAReceberRoute,
   AuthenticatedDicasRoute: AuthenticatedDicasRoute,
