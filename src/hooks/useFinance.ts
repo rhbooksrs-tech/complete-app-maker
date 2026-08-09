@@ -71,13 +71,20 @@ export function useFinanceMutations(userId: string | undefined) {
       values: Record<string, unknown>;
       id?: string;
     }) => {
+      const client = supabase.from(table) as unknown as {
+        update: (v: Record<string, unknown>) => {
+          eq: (c: string, v: string) => Promise<{ error: unknown }>;
+        };
+        insert: (v: Record<string, unknown>) => Promise<{ error: unknown }>;
+      };
       if (id) {
-        const { error } = await supabase.from(table).update(values).eq("id", id);
+        const { error } = await client.update(values).eq("id", id);
         if (error) throw error;
       } else {
-        const { error } = await supabase.from(table).insert({ ...values, user_id: userId });
+        const { error } = await client.insert({ ...values, user_id: userId ?? "" });
         if (error) throw error;
       }
+
     },
     onSuccess: invalidate,
   });
