@@ -14,7 +14,186 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categorias: {
+        Row: {
+          cor: string
+          created_at: string
+          id: string
+          nome: string
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          cor?: string
+          created_at?: string
+          id?: string
+          nome: string
+          tipo: string
+          user_id: string
+        }
+        Update: {
+          cor?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      formas_pagamento: {
+        Row: {
+          cor: string
+          created_at: string
+          id: string
+          nome: string
+          saldo_inicial: number
+          user_id: string
+        }
+        Insert: {
+          cor?: string
+          created_at?: string
+          id?: string
+          nome: string
+          saldo_inicial?: number
+          user_id: string
+        }
+        Update: {
+          cor?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          saldo_inicial?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      lancamentos: {
+        Row: {
+          categoria_id: string | null
+          created_at: string
+          data: string
+          forma_pagamento_id: string | null
+          id: string
+          nome: string
+          numero_documento: string | null
+          status: string
+          tipo: string
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          categoria_id?: string | null
+          created_at?: string
+          data?: string
+          forma_pagamento_id?: string | null
+          id?: string
+          nome: string
+          numero_documento?: string | null
+          status?: string
+          tipo: string
+          user_id: string
+          valor?: number
+        }
+        Update: {
+          categoria_id?: string | null
+          created_at?: string
+          data?: string
+          forma_pagamento_id?: string | null
+          id?: string
+          nome?: string
+          numero_documento?: string | null
+          status?: string
+          tipo?: string
+          user_id?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lancamentos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_forma_pagamento_id_fkey"
+            columns: ["forma_pagamento_id"]
+            isOneToOne: false
+            referencedRelation: "formas_pagamento"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          idioma: string
+          moeda: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          idioma?: string
+          moeda?: string
+          username?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          idioma?: string
+          moeda?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      transferencias: {
+        Row: {
+          created_at: string
+          data: string
+          destino_id: string | null
+          id: string
+          origem_id: string | null
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          created_at?: string
+          data?: string
+          destino_id?: string | null
+          id?: string
+          origem_id?: string | null
+          user_id: string
+          valor?: number
+        }
+        Update: {
+          created_at?: string
+          data?: string
+          destino_id?: string | null
+          id?: string
+          origem_id?: string | null
+          user_id?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transferencias_destino_id_fkey"
+            columns: ["destino_id"]
+            isOneToOne: false
+            referencedRelation: "formas_pagamento"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transferencias_origem_id_fkey"
+            columns: ["origem_id"]
+            isOneToOne: false
+            referencedRelation: "formas_pagamento"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
