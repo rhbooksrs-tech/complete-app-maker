@@ -61,7 +61,7 @@ function FormasPage() {
       <div className="flex justify-end">
         <Button
           onClick={() =>
-            setDraft({ nome: "", cor: PALETTE[0], saldo_inicial: "0" })
+            setDraft({ nome: "", cor: PALETTE[0] as string, saldo_inicial: "0" })
           }
         >
           <Plus className="mr-1 h-4 w-4" />

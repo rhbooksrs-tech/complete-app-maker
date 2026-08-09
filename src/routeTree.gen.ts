@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated.index'
 import { Route as AuthenticatedContasAPagarRouteImport } from './routes/_authenticated.contas-a-pagar'
 import { Route as AuthenticatedContasAReceberRouteImport } from './routes/_authenticated.contas-a-receber'
+import { Route as AuthenticatedFormasDePagamentoRouteImport } from './routes/_authenticated.formas-de-pagamento'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -41,17 +42,25 @@ const AuthenticatedContasAReceberRoute =
     path: '/contas-a-receber',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedFormasDePagamentoRoute =
+  AuthenticatedFormasDePagamentoRouteImport.update({
+    id: '/formas-de-pagamento',
+    path: '/formas-de-pagamento',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/auth': typeof AuthRoute
   '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
+  '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
+  '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -60,19 +69,31 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/_authenticated/contas-a-receber': typeof AuthenticatedContasAReceberRoute
+  '/_authenticated/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/contas-a-pagar' | '/contas-a-receber'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/contas-a-pagar'
+    | '/contas-a-receber'
+    | '/formas-de-pagamento'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/contas-a-pagar' | '/contas-a-receber' | '/'
+  to:
+    | '/auth'
+    | '/contas-a-pagar'
+    | '/contas-a-receber'
+    | '/formas-de-pagamento'
+    | '/'
   id:
     | '__root__'
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/contas-a-pagar'
     | '/_authenticated/contas-a-receber'
+    | '/_authenticated/formas-de-pagamento'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -118,18 +139,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedContasAReceberRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/formas-de-pagamento': {
+      id: '/_authenticated/formas-de-pagamento'
+      path: '/formas-de-pagamento'
+      fullPath: '/formas-de-pagamento'
+      preLoaderRoute: typeof AuthenticatedFormasDePagamentoRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedContasAPagarRoute: typeof AuthenticatedContasAPagarRoute
   AuthenticatedContasAReceberRoute: typeof AuthenticatedContasAReceberRoute
+  AuthenticatedFormasDePagamentoRoute: typeof AuthenticatedFormasDePagamentoRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedContasAPagarRoute: AuthenticatedContasAPagarRoute,
   AuthenticatedContasAReceberRoute: AuthenticatedContasAReceberRoute,
+  AuthenticatedFormasDePagamentoRoute: AuthenticatedFormasDePagamentoRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
