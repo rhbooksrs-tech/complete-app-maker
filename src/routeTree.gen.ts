@@ -16,6 +16,7 @@ import { Route as AuthenticatedCategoriasRouteImport } from './routes/_authentic
 import { Route as AuthenticatedContasAPagarRouteImport } from './routes/_authenticated.contas-a-pagar'
 import { Route as AuthenticatedContasAReceberRouteImport } from './routes/_authenticated.contas-a-receber'
 import { Route as AuthenticatedFormasDePagamentoRouteImport } from './routes/_authenticated.formas-de-pagamento'
+import { Route as AuthenticatedTransferenciasRouteImport } from './routes/_authenticated.transferencias'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -54,6 +55,12 @@ const AuthenticatedFormasDePagamentoRoute =
     path: '/formas-de-pagamento',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedTransferenciasRoute =
+  AuthenticatedTransferenciasRouteImport.update({
+    id: '/transferencias',
+    path: '/transferencias',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
   '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
+  '/transferencias': typeof AuthenticatedTransferenciasRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
@@ -69,6 +77,7 @@ export interface FileRoutesByTo {
   '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
   '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
+  '/transferencias': typeof AuthenticatedTransferenciasRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -79,6 +88,7 @@ export interface FileRoutesById {
   '/_authenticated/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
   '/_authenticated/contas-a-receber': typeof AuthenticatedContasAReceberRoute
   '/_authenticated/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
+  '/_authenticated/transferencias': typeof AuthenticatedTransferenciasRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +100,7 @@ export interface FileRouteTypes {
     | '/contas-a-pagar'
     | '/contas-a-receber'
     | '/formas-de-pagamento'
+    | '/transferencias'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/contas-a-pagar'
     | '/contas-a-receber'
     | '/formas-de-pagamento'
+    | '/transferencias'
     | '/'
   id:
     | '__root__'
@@ -106,6 +118,7 @@ export interface FileRouteTypes {
     | '/_authenticated/contas-a-pagar'
     | '/_authenticated/contas-a-receber'
     | '/_authenticated/formas-de-pagamento'
+    | '/_authenticated/transferencias'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFormasDePagamentoRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/transferencias': {
+      id: '/_authenticated/transferencias'
+      path: '/transferencias'
+      fullPath: '/transferencias'
+      preLoaderRoute: typeof AuthenticatedTransferenciasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
@@ -173,6 +193,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedContasAPagarRoute: typeof AuthenticatedContasAPagarRoute
   AuthenticatedContasAReceberRoute: typeof AuthenticatedContasAReceberRoute
   AuthenticatedFormasDePagamentoRoute: typeof AuthenticatedFormasDePagamentoRoute
+  AuthenticatedTransferenciasRoute: typeof AuthenticatedTransferenciasRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
@@ -181,6 +202,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedContasAPagarRoute: AuthenticatedContasAPagarRoute,
   AuthenticatedContasAReceberRoute: AuthenticatedContasAReceberRoute,
   AuthenticatedFormasDePagamentoRoute: AuthenticatedFormasDePagamentoRoute,
+  AuthenticatedTransferenciasRoute: AuthenticatedTransferenciasRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
