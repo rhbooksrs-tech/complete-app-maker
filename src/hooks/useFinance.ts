@@ -69,7 +69,7 @@ export function useFinanceMutations(userId: string | undefined) {
     }: {
       table: TableName;
       values: Record<string, unknown>;
-      id?: string;
+      id?: string | undefined;
     }) => {
       const client = supabase.from(table) as unknown as {
         update: (v: Record<string, unknown>) => {
