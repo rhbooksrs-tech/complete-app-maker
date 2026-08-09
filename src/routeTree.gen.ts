@@ -9,61 +9,297 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated.index'
+import { Route as AuthenticatedCategoriasRouteImport } from './routes/_authenticated.categorias'
+import { Route as AuthenticatedConfiguracoesRouteImport } from './routes/_authenticated.configuracoes'
+import { Route as AuthenticatedContasAPagarRouteImport } from './routes/_authenticated.contas-a-pagar'
+import { Route as AuthenticatedContasAReceberRouteImport } from './routes/_authenticated.contas-a-receber'
+import { Route as AuthenticatedDicasRouteImport } from './routes/_authenticated.dicas'
+import { Route as AuthenticatedFluxoDeCaixaRouteImport } from './routes/_authenticated.fluxo-de-caixa'
+import { Route as AuthenticatedFormasDePagamentoRouteImport } from './routes/_authenticated.formas-de-pagamento'
+import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated.graficos'
+import { Route as AuthenticatedTransferenciasRouteImport } from './routes/_authenticated.transferencias'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedCategoriasRoute = AuthenticatedCategoriasRouteImport.update({
+  id: '/categorias',
+  path: '/categorias',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedConfiguracoesRoute =
+  AuthenticatedConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedContasAPagarRoute =
+  AuthenticatedContasAPagarRouteImport.update({
+    id: '/contas-a-pagar',
+    path: '/contas-a-pagar',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedContasAReceberRoute =
+  AuthenticatedContasAReceberRouteImport.update({
+    id: '/contas-a-receber',
+    path: '/contas-a-receber',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedDicasRoute = AuthenticatedDicasRouteImport.update({
+  id: '/dicas',
+  path: '/dicas',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedFluxoDeCaixaRoute =
+  AuthenticatedFluxoDeCaixaRouteImport.update({
+    id: '/fluxo-de-caixa',
+    path: '/fluxo-de-caixa',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedFormasDePagamentoRoute =
+  AuthenticatedFormasDePagamentoRouteImport.update({
+    id: '/formas-de-pagamento',
+    path: '/formas-de-pagamento',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedGraficosRoute = AuthenticatedGraficosRouteImport.update({
+  id: '/graficos',
+  path: '/graficos',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedTransferenciasRoute =
+  AuthenticatedTransferenciasRouteImport.update({
+    id: '/transferencias',
+    path: '/transferencias',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/auth': typeof AuthRoute
+  '/categorias': typeof AuthenticatedCategoriasRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
+  '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
+  '/dicas': typeof AuthenticatedDicasRoute
+  '/fluxo-de-caixa': typeof AuthenticatedFluxoDeCaixaRoute
+  '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
+  '/graficos': typeof AuthenticatedGraficosRoute
+  '/transferencias': typeof AuthenticatedTransferenciasRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/categorias': typeof AuthenticatedCategoriasRoute
+  '/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
+  '/contas-a-receber': typeof AuthenticatedContasAReceberRoute
+  '/dicas': typeof AuthenticatedDicasRoute
+  '/fluxo-de-caixa': typeof AuthenticatedFluxoDeCaixaRoute
+  '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
+  '/graficos': typeof AuthenticatedGraficosRoute
+  '/transferencias': typeof AuthenticatedTransferenciasRoute
+  '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/categorias': typeof AuthenticatedCategoriasRoute
+  '/_authenticated/configuracoes': typeof AuthenticatedConfiguracoesRoute
+  '/_authenticated/contas-a-pagar': typeof AuthenticatedContasAPagarRoute
+  '/_authenticated/contas-a-receber': typeof AuthenticatedContasAReceberRoute
+  '/_authenticated/dicas': typeof AuthenticatedDicasRoute
+  '/_authenticated/fluxo-de-caixa': typeof AuthenticatedFluxoDeCaixaRoute
+  '/_authenticated/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
+  '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
+  '/_authenticated/transferencias': typeof AuthenticatedTransferenciasRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/categorias'
+    | '/configuracoes'
+    | '/contas-a-pagar'
+    | '/contas-a-receber'
+    | '/dicas'
+    | '/fluxo-de-caixa'
+    | '/formas-de-pagamento'
+    | '/graficos'
+    | '/transferencias'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/auth'
+    | '/categorias'
+    | '/configuracoes'
+    | '/contas-a-pagar'
+    | '/contas-a-receber'
+    | '/dicas'
+    | '/fluxo-de-caixa'
+    | '/formas-de-pagamento'
+    | '/graficos'
+    | '/transferencias'
+    | '/'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/categorias'
+    | '/_authenticated/configuracoes'
+    | '/_authenticated/contas-a-pagar'
+    | '/_authenticated/contas-a-receber'
+    | '/_authenticated/dicas'
+    | '/_authenticated/fluxo-de-caixa'
+    | '/_authenticated/formas-de-pagamento'
+    | '/_authenticated/graficos'
+    | '/_authenticated/transferencias'
+    | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/categorias': {
+      id: '/_authenticated/categorias'
+      path: '/categorias'
+      fullPath: '/categorias'
+      preLoaderRoute: typeof AuthenticatedCategoriasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/configuracoes': {
+      id: '/_authenticated/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof AuthenticatedConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/contas-a-pagar': {
+      id: '/_authenticated/contas-a-pagar'
+      path: '/contas-a-pagar'
+      fullPath: '/contas-a-pagar'
+      preLoaderRoute: typeof AuthenticatedContasAPagarRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/contas-a-receber': {
+      id: '/_authenticated/contas-a-receber'
+      path: '/contas-a-receber'
+      fullPath: '/contas-a-receber'
+      preLoaderRoute: typeof AuthenticatedContasAReceberRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dicas': {
+      id: '/_authenticated/dicas'
+      path: '/dicas'
+      fullPath: '/dicas'
+      preLoaderRoute: typeof AuthenticatedDicasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/fluxo-de-caixa': {
+      id: '/_authenticated/fluxo-de-caixa'
+      path: '/fluxo-de-caixa'
+      fullPath: '/fluxo-de-caixa'
+      preLoaderRoute: typeof AuthenticatedFluxoDeCaixaRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/formas-de-pagamento': {
+      id: '/_authenticated/formas-de-pagamento'
+      path: '/formas-de-pagamento'
+      fullPath: '/formas-de-pagamento'
+      preLoaderRoute: typeof AuthenticatedFormasDePagamentoRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/graficos': {
+      id: '/_authenticated/graficos'
+      path: '/graficos'
+      fullPath: '/graficos'
+      preLoaderRoute: typeof AuthenticatedGraficosRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/transferencias': {
+      id: '/_authenticated/transferencias'
+      path: '/transferencias'
+      fullPath: '/transferencias'
+      preLoaderRoute: typeof AuthenticatedTransferenciasRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedCategoriasRoute: typeof AuthenticatedCategoriasRoute
+  AuthenticatedConfiguracoesRoute: typeof AuthenticatedConfiguracoesRoute
+  AuthenticatedContasAPagarRoute: typeof AuthenticatedContasAPagarRoute
+  AuthenticatedContasAReceberRoute: typeof AuthenticatedContasAReceberRoute
+  AuthenticatedDicasRoute: typeof AuthenticatedDicasRoute
+  AuthenticatedFluxoDeCaixaRoute: typeof AuthenticatedFluxoDeCaixaRoute
+  AuthenticatedFormasDePagamentoRoute: typeof AuthenticatedFormasDePagamentoRoute
+  AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
+  AuthenticatedTransferenciasRoute: typeof AuthenticatedTransferenciasRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCategoriasRoute: AuthenticatedCategoriasRoute,
+  AuthenticatedConfiguracoesRoute: AuthenticatedConfiguracoesRoute,
+  AuthenticatedContasAPagarRoute: AuthenticatedContasAPagarRoute,
+  AuthenticatedContasAReceberRoute: AuthenticatedContasAReceberRoute,
+  AuthenticatedDicasRoute: AuthenticatedDicasRoute,
+  AuthenticatedFluxoDeCaixaRoute: AuthenticatedFluxoDeCaixaRoute,
+  AuthenticatedFormasDePagamentoRoute: AuthenticatedFormasDePagamentoRoute,
+  AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
+  AuthenticatedTransferenciasRoute: AuthenticatedTransferenciasRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
