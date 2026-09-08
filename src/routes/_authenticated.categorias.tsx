@@ -58,7 +58,7 @@ function CategoriasPage() {
     await upsert.mutateAsync({
       table: "categorias",
       id: draft.id,
-      values: { nome: draft.nome, cor: draft.cor, tipo: draft.tipo },
+      values: { nome, cor: draft.cor, tipo: draft.tipo },
     });
     setDraft(null);
   }
@@ -72,9 +72,10 @@ function CategoriasPage() {
     <div className="flex flex-col gap-4">
       <div className="flex justify-end">
         <Button
-          onClick={() =>
-            setDraft({ nome: "", cor: PALETTE[0] as string, tipo: "despesa" })
-          }
+          onClick={() => {
+            setError("");
+            setDraft({ nome: "", cor: PALETTE[0] as string, tipo: "despesa" });
+          }}
         >
           <Plus className="mr-1 h-4 w-4" />
           {t("adicionar")}
