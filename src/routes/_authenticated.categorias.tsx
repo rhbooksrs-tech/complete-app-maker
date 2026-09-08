@@ -39,9 +39,22 @@ function CategoriasPage() {
   const { data } = useFinanceData(user?.id);
   const { upsert, remove } = useFinanceMutations(user?.id);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [error, setError] = useState("");
 
   async function save() {
-    if (!draft?.nome) return;
+    if (!draft?.nome.trim()) return;
+    const nome = draft.nome.trim();
+    const duplicada = (data?.categorias ?? []).some(
+      (c) =>
+        c.id !== draft.id &&
+        c.tipo === draft.tipo &&
+        c.nome.trim().toLocaleLowerCase() === nome.toLocaleLowerCase(),
+    );
+    if (duplicada) {
+      setError(t("categoriaDuplicada"));
+      return;
+    }
+    setError("");
     await upsert.mutateAsync({
       table: "categorias",
       id: draft.id,

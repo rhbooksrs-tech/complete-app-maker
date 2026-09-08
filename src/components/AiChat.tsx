@@ -78,13 +78,13 @@ export function AiChat({ data }: { data: FinanceData }) {
               <div
                 key={i}
                 className={cn(
-                  "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2.5 text-[13.5px] leading-relaxed",
+                  "max-w-[85%] rounded-2xl px-3 py-2.5 text-[13.5px] leading-relaxed",
                   m.role === "user"
-                    ? "gradient-brand self-end rounded-br-sm text-primary-foreground"
+                    ? "gradient-brand self-end whitespace-pre-wrap rounded-br-sm text-primary-foreground"
                     : "self-start rounded-bl-sm border border-gold/30 bg-gold/10 text-foreground",
                 )}
               >
-                {m.text}
+                {m.role === "user" ? m.text : <Markdown text={m.text} />}
               </div>
             ))}
             {loading && (
