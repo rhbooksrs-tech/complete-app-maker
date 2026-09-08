@@ -104,9 +104,10 @@ function CategoriasPage() {
                     <div className="flex">
                       <button
                         className="p-1 text-muted-foreground hover:text-foreground"
-                        onClick={() =>
-                          setDraft({ id: c.id, nome: c.nome, cor: c.cor, tipo: c.tipo })
-                        }
+                        onClick={() => {
+                          setError("");
+                          setDraft({ id: c.id, nome: c.nome, cor: c.cor, tipo: c.tipo });
+                        }}
                       >
                         <Pencil className="h-4 w-4" />
                       </button>
@@ -164,6 +165,7 @@ function CategoriasPage() {
                   ))}
                 </div>
               </div>
+              {error && <p className="text-sm text-destructive">{error}</p>}
             </div>
           )}
           <DialogFooter>
