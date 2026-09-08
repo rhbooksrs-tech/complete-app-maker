@@ -39,13 +39,26 @@ function CategoriasPage() {
   const { data } = useFinanceData(user?.id);
   const { upsert, remove } = useFinanceMutations(user?.id);
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [error, setError] = useState("");
 
   async function save() {
-    if (!draft?.nome) return;
+    if (!draft?.nome.trim()) return;
+    const nome = draft.nome.trim();
+    const duplicada = (data?.categorias ?? []).some(
+      (c) =>
+        c.id !== draft.id &&
+        c.tipo === draft.tipo &&
+        c.nome.trim().toLocaleLowerCase() === nome.toLocaleLowerCase(),
+    );
+    if (duplicada) {
+      setError(t("categoriaDuplicada"));
+      return;
+    }
+    setError("");
     await upsert.mutateAsync({
       table: "categorias",
       id: draft.id,
-      values: { nome: draft.nome, cor: draft.cor, tipo: draft.tipo },
+      values: { nome, cor: draft.cor, tipo: draft.tipo },
     });
     setDraft(null);
   }
@@ -59,9 +72,10 @@ function CategoriasPage() {
     <div className="flex flex-col gap-4">
       <div className="flex justify-end">
         <Button
-          onClick={() =>
-            setDraft({ nome: "", cor: PALETTE[0] as string, tipo: "despesa" })
-          }
+          onClick={() => {
+            setError("");
+            setDraft({ nome: "", cor: PALETTE[0] as string, tipo: "despesa" });
+          }}
         >
           <Plus className="mr-1 h-4 w-4" />
           {t("adicionar")}
@@ -90,9 +104,10 @@ function CategoriasPage() {
                     <div className="flex">
                       <button
                         className="p-1 text-muted-foreground hover:text-foreground"
-                        onClick={() =>
-                          setDraft({ id: c.id, nome: c.nome, cor: c.cor, tipo: c.tipo })
-                        }
+                        onClick={() => {
+                          setError("");
+                          setDraft({ id: c.id, nome: c.nome, cor: c.cor, tipo: c.tipo });
+                        }}
                       >
                         <Pencil className="h-4 w-4" />
                       </button>
@@ -150,6 +165,7 @@ function CategoriasPage() {
                   ))}
                 </div>
               </div>
+              {error && <p className="text-sm text-destructive">{error}</p>}
             </div>
           )}
           <DialogFooter>

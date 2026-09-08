@@ -7,6 +7,16 @@ import { useI18n, LANG_LABEL } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+function Markdown({ text }: { text: string }) {
+  return (
+    <div className="space-y-2 [&_a]:underline [&_li]:ml-4 [&_li]:list-disc [&_ol_li]:list-decimal [&_strong]:font-bold">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+    </div>
+  );
+}
 
 type Msg = { role: "user" | "assistant"; text: string };
 
@@ -28,7 +38,7 @@ export function AiChat({ data }: { data: FinanceData }) {
         data: {
           question: text,
           langName: LANG_LABEL[lang] ?? "Português (BR)",
-          context: JSON.stringify(buildFinanceContext(data, currency)),
+          context: JSON.stringify(buildFinanceContext(data, currency, lang)),
         },
       });
       setMessages((m) => [...m, { role: "assistant", text: res.reply ?? t("chatErro") }]);
@@ -68,13 +78,13 @@ export function AiChat({ data }: { data: FinanceData }) {
               <div
                 key={i}
                 className={cn(
-                  "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2.5 text-[13.5px] leading-relaxed",
+                  "max-w-[85%] rounded-2xl px-3 py-2.5 text-[13.5px] leading-relaxed",
                   m.role === "user"
-                    ? "gradient-brand self-end rounded-br-sm text-primary-foreground"
+                    ? "gradient-brand self-end whitespace-pre-wrap rounded-br-sm text-primary-foreground"
                     : "self-start rounded-bl-sm border border-gold/30 bg-gold/10 text-foreground",
                 )}
               >
-                {m.text}
+                {m.role === "user" ? m.text : <Markdown text={m.text} />}
               </div>
             ))}
             {loading && (

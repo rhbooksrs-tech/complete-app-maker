@@ -120,7 +120,7 @@ export function monthlyFlow(data: FinanceData) {
   return Object.values(map).sort((a, b) => a.mes.localeCompare(b.mes));
 }
 
-export function buildFinanceContext(data: FinanceData, currency: string) {
+export function buildFinanceContext(data: FinanceData, currency: string, lang = "pt-BR") {
   const { perForma, total, aReceberPendente, aPagarPendente } = computeBalances(data);
   const em30 = new Date();
   em30.setDate(em30.getDate() + 30);
@@ -145,6 +145,15 @@ export function buildFinanceContext(data: FinanceData, currency: string) {
   return {
     dataDeHoje: todayISO(),
     moeda: currency,
+    exemploFormatoMoeda: (() => {
+      try {
+        return new Intl.NumberFormat(lang, { style: "currency", currency: currency || "BRL" }).format(
+          5000,
+        );
+      } catch {
+        return `${currency} 5000.00`;
+      }
+    })(),
     saldoTotalAcumulado: Math.round(total * 100) / 100,
     saldoPorFormaDePagamento: data.formas.map((f) => ({
       nome: f.nome,

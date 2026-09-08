@@ -36,6 +36,8 @@ export function useFinanceData(userId: string | undefined) {
   return useQuery({
     queryKey: ["finance", userId],
     enabled: !!userId,
+    staleTime: 0,
+    refetchOnMount: "always",
     queryFn: async (): Promise<FinanceData> => {
       const [cat, formas, lanc, transf] = await Promise.all([
         supabase.from("categorias").select("*").order("created_at"),
@@ -59,7 +61,8 @@ type TableName = "categorias" | "formas_pagamento" | "lancamentos" | "transferen
 
 export function useFinanceMutations(userId: string | undefined) {
   const qc = useQueryClient();
-  const invalidate = () => qc.invalidateQueries({ queryKey: ["finance", userId] });
+  const invalidate = () =>
+    qc.invalidateQueries({ queryKey: ["finance", userId], refetchType: "all" });
 
   const upsert = useMutation({
     mutationFn: async ({
