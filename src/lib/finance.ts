@@ -145,6 +145,15 @@ export function buildFinanceContext(data: FinanceData, currency: string, lang = 
   return {
     dataDeHoje: todayISO(),
     moeda: currency,
+    exemploFormatoMoeda: (() => {
+      try {
+        return new Intl.NumberFormat(lang, { style: "currency", currency: currency || "BRL" }).format(
+          5000,
+        );
+      } catch {
+        return `${currency} 5000.00`;
+      }
+    })(),
     saldoTotalAcumulado: Math.round(total * 100) / 100,
     saldoPorFormaDePagamento: data.formas.map((f) => ({
       nome: f.nome,
