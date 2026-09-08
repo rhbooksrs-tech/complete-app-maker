@@ -90,6 +90,10 @@ function ConfigPage() {
           <Input value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <div className="grid gap-1.5">
+          <Label>{t("email")}</Label>
+          <Input value={user?.email ?? ""} readOnly disabled />
+        </div>
+        <div className="grid gap-1.5">
           <Label>{t("idioma")}</Label>
           <select
             value={idioma}
@@ -123,18 +127,27 @@ function ConfigPage() {
       <div className="glass flex flex-col gap-3 p-5">
         <h2 className="font-display text-base font-bold">{t("alterarSenha")}</h2>
         <div className="grid gap-1.5">
+          <Label>{t("senhaAtual")}</Label>
+          <Input
+            type="password"
+            autoComplete="current-password"
+            value={senhaAtual}
+            onChange={(e) => setSenhaAtual(e.target.value)}
+          />
+        </div>
+        <div className="grid gap-1.5">
           <Label>{t("novaSenha")}</Label>
           <Input
             type="password"
             autoComplete="new-password"
             value={novaSenha}
+            disabled={!senhaAtual}
             onChange={(e) => setNovaSenha(e.target.value)}
           />
         </div>
-        <Button variant="secondary" onClick={trocarSenha}>
+        <Button variant="secondary" onClick={trocarSenha} disabled={!senhaAtual || !novaSenha}>
           {t("salvar")}
         </Button>
-        <p className="text-xs text-muted-foreground">{t("senhaRecuperadaAviso")}</p>
       </div>
 
       {(msg || error) && (
