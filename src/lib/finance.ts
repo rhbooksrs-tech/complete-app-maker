@@ -120,7 +120,7 @@ export function monthlyFlow(data: FinanceData) {
   return Object.values(map).sort((a, b) => a.mes.localeCompare(b.mes));
 }
 
-export function buildFinanceContext(data: FinanceData, currency: string) {
+export function buildFinanceContext(data: FinanceData, currency: string, lang = "pt-BR") {
   const { perForma, total, aReceberPendente, aPagarPendente } = computeBalances(data);
   const em30 = new Date();
   em30.setDate(em30.getDate() + 30);
