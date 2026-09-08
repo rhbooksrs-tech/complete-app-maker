@@ -32,6 +32,7 @@ function ConfigPage() {
   const [username, setUsername] = useState(profile?.username ?? "");
   const [idioma, setIdioma] = useState(profile?.idioma ?? "pt-BR");
   const [moeda, setMoeda] = useState(profile?.moeda ?? "BRL");
+  const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
@@ -54,8 +55,20 @@ function ConfigPage() {
   async function trocarSenha() {
     setMsg("");
     setError("");
-    if (novaSenha.length < 6) {
+    if (!senhaAtual) {
       setError(t("camposObrigatorios"));
+      return;
+    }
+    if (novaSenha.length < 6) {
+      setError(t("senhaMin6"));
+      return;
+    }
+    const { error: authErr } = await supabase.auth.signInWithPassword({
+      email: user?.email ?? "",
+      password: senhaAtual,
+    });
+    if (authErr) {
+      setError(t("senhaAtualIncorreta"));
       return;
     }
     const { error: err } = await supabase.auth.updateUser({ password: novaSenha });
@@ -63,6 +76,7 @@ function ConfigPage() {
       setError(err.message);
       return;
     }
+    setSenhaAtual("");
     setNovaSenha("");
     setMsg(t("salvoComSucesso"));
   }
