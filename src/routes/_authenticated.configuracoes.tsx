@@ -30,6 +30,7 @@ function ConfigPage() {
   const qc = useQueryClient();
   const { data: profile } = useProfile(user?.id);
   const [username, setUsername] = useState(profile?.username ?? "");
+  const [email, setEmail] = useState(user?.email ?? "");
   const [idioma, setIdioma] = useState(profile?.idioma ?? "pt-BR");
   const [moeda, setMoeda] = useState(profile?.moeda ?? "BRL");
   const [senhaAtual, setSenhaAtual] = useState("");
@@ -46,6 +47,20 @@ function ConfigPage() {
       .eq("id", user!.id);
     if (err) {
       setError(err.message);
+      return;
+    }
+    const novoEmail = email.trim();
+    if (novoEmail && novoEmail !== user?.email) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(novoEmail)) {
+        setError(t("emailInvalido"));
+        return;
+      }
+      const { error: emailErr } = await supabase.auth.updateUser({ email: novoEmail });
+      if (emailErr) {
+        setError(emailErr.message);
+        return;
+      }
+      setMsg(t("emailConfirmacaoEnviada"));
       return;
     }
     await qc.invalidateQueries({ queryKey: ["profile", user?.id] });
@@ -91,7 +106,12 @@ function ConfigPage() {
         </div>
         <div className="grid gap-1.5">
           <Label>{t("email")}</Label>
-          <Input value={user?.email ?? ""} readOnly disabled />
+          <Input
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div className="grid gap-1.5">
           <Label>{t("idioma")}</Label>
