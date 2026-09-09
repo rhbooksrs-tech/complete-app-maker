@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_authenticated/dicas")({
 
 function DicasPage() {
   const { t } = useI18n();
-  const dicas = [t("dicasTexto1"), t("dicasTexto2"), t("dicasTexto3")];
+  const dicas = [t("dicasTexto1"), t("dicasTexto2"), t("dicasTexto3"), t("dicasTexto4")];
 
   return (
     <div className="glass max-w-2xl p-6">
