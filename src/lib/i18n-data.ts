@@ -19,6 +19,7 @@ haveAccount:{"pt-BR":"Já tem conta?",es:"¿Ya tiene cuenta?",en:"Already have a
 dashboard:{"pt-BR":"Painel",es:"Panel",en:"Dashboard",de:"Übersicht",fr:"Tableau de bord",it:"Pannello"},
 contasPagar:{"pt-BR":"Contas a Pagar",es:"Cuentas por Pagar",en:"Bills to Pay",de:"Zu zahlende Rechnungen",fr:"Factures à payer",it:"Fatture da pagare"},
 contasReceber:{"pt-BR":"Contas a Receber",es:"Cuentas por Cobrar",en:"Bills to Receive",de:"Offene Forderungen",fr:"Factures à recevoir",it:"Fatture da ricevere"},
+verTodos:{"pt-BR":"Ver todos",es:"Ver todos",en:"View all",de:"Alle ansehen",fr:"Voir tout",it:"Vedi tutti"},
 contaCorrente:{"pt-BR":"Conta Corrente",es:"Cuenta Corriente",en:"Current Account",de:"Girokonto",fr:"Compte courant",it:"Conto corrente"},
 formasPagamento:{"pt-BR":"Formas de Pagamento",es:"Formas de Pago",en:"Payment Methods",de:"Zahlungsarten",fr:"Moyens de paiement",it:"Metodi di pagamento"},
 categorias:{"pt-BR":"Categorias",es:"Categorías",en:"Categories",de:"Kategorien",fr:"Catégories",it:"Categorie"},
