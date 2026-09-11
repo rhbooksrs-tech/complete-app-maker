@@ -36,8 +36,12 @@ function Dashboard() {
   const { perForma, total, aReceberPendente, aPagarPendente } = computeBalances(data);
   const f30 = buildForecast(data, 30);
   const f90 = buildForecast(data, 90);
-  const proximos = [...data.lancamentos]
-    .filter((l) => l.status === "pendente")
+  const proximosPagar = [...data.lancamentos]
+    .filter((l) => l.status === "pendente" && l.tipo === "pagar")
+    .sort((a, b) => a.data.localeCompare(b.data))
+    .slice(0, 6);
+  const proximosReceber = [...data.lancamentos]
+    .filter((l) => l.status === "pendente" && l.tipo === "receber")
     .sort((a, b) => a.data.localeCompare(b.data))
     .slice(0, 6);
 
