@@ -40,9 +40,8 @@ function FormasPage() {
   const { upsert, remove } = useFinanceMutations(user?.id);
   const [draft, setDraft] = useState<Draft | null>(null);
 
-  const { perForma: balances, total: saldoAcumulado } = data
-    ? computeBalances(data)
-    : { perForma: {}, total: 0 };
+  const balances = data ? computeBalances(data).perForma : {};
+  const saldoAcumulado = data ? computeBalances(data).total : 0;
 
   async function save() {
     if (!draft?.nome) return;
