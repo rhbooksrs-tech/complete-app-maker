@@ -103,35 +103,54 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="glass p-5">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-display text-base font-bold">{t("nenhumLancamento") && t("dashboard")}</h2>
-          <Link to="/contas-a-pagar" className="text-xs font-semibold text-gold underline">
-            {t("contasPagar")}
-          </Link>
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="glass p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-display text-base font-bold">{t("contasPagar")}</h2>
+            <Link to="/contas-a-pagar" className="text-xs font-semibold text-gold underline">
+              {t("verTodos")}
+            </Link>
+          </div>
+          {proximosPagar.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("nenhumLancamento")}</p>
+          ) : (
+            <ul className="flex flex-col divide-y divide-border/60">
+              {proximosPagar.map((l) => (
+                <li key={l.id} className="flex items-center justify-between gap-3 py-3 text-sm">
+                  <div>
+                    <p className="font-semibold">{l.nome}</p>
+                    <p className="text-xs text-muted-foreground">{date(l.data)}</p>
+                  </div>
+                  <span className="font-bold text-destructive">− {money(Number(l.valor))}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        {proximos.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("nenhumLancamento")}</p>
-        ) : (
-          <ul className="flex flex-col divide-y divide-border/60">
-            {proximos.map((l) => (
-              <li key={l.id} className="flex items-center justify-between gap-3 py-3 text-sm">
-                <div>
-                  <p className="font-semibold">{l.nome}</p>
-                  <p className="text-xs text-muted-foreground">{date(l.data)}</p>
-                </div>
-                <span
-                  className={cn(
-                    "font-bold",
-                    l.tipo === "receber" ? "text-success" : "text-destructive",
-                  )}
-                >
-                  {l.tipo === "receber" ? "+" : "−"} {money(Number(l.valor))}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+
+        <div className="glass p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-display text-base font-bold">{t("contasReceber")}</h2>
+            <Link to="/contas-a-receber" className="text-xs font-semibold text-gold underline">
+              {t("verTodos")}
+            </Link>
+          </div>
+          {proximosReceber.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("nenhumLancamento")}</p>
+          ) : (
+            <ul className="flex flex-col divide-y divide-border/60">
+              {proximosReceber.map((l) => (
+                <li key={l.id} className="flex items-center justify-between gap-3 py-3 text-sm">
+                  <div>
+                    <p className="font-semibold">{l.nome}</p>
+                    <p className="text-xs text-muted-foreground">{date(l.data)}</p>
+                  </div>
+                  <span className="font-bold text-success">+ {money(Number(l.valor))}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
