@@ -111,6 +111,17 @@ function FormasPage() {
         ))}
       </div>
 
+      <div className="glass glass-hover p-5">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            {t("saldoTotal")}
+          </p>
+        </div>
+        <p className="mt-3 font-display text-2xl font-extrabold text-gold">
+          {money(saldoAcumulado)}
+        </p>
+      </div>
+
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
