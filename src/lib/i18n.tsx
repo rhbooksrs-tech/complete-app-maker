@@ -141,6 +141,30 @@ const EXTRA: Record<string, Record<string, string>> = {
     fr: "Résumé",
     it: "Riepilogo",
   },
+  listar: {
+    "pt-BR": "Listar",
+    es: "Listar",
+    en: "List",
+    de: "Auflisten",
+    fr: "Lister",
+    it: "Elenca",
+  },
+  escolherPeriodo: {
+    "pt-BR": "Escolher período",
+    es: "Elegir período",
+    en: "Choose period",
+    de: "Zeitraum wählen",
+    fr: "Choisir la période",
+    it: "Scegli periodo",
+  },
+  escolherMes: {
+    "pt-BR": "Escolher mês",
+    es: "Elegir mes",
+    en: "Choose month",
+    de: "Monat wählen",
+    fr: "Choisir le mois",
+    it: "Scegli mese",
+  },
 };
 
 const DICT: Record<string, Record<string, string>> = { ...BASE, ...EXTRA };

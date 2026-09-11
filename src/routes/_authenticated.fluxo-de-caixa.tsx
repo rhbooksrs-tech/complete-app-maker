@@ -1,10 +1,15 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { format } from "date-fns";
+import { CalendarIcon, ListIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useFinanceData } from "@/hooks/useFinance";
 import { useI18n } from "@/lib/i18n";
 import { buildForecast, computeBalances, monthlyFlow } from "@/lib/finance";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/_authenticated/fluxo-de-caixa")({
   head: () => ({
@@ -24,39 +29,50 @@ export const Route = createFileRoute("/_authenticated/fluxo-de-caixa")({
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 
 function FluxoPage() {
-  const { t, money } = useI18n();
+  const { t, money, lang } = useI18n();
   const { user } = useAuth();
   const { data } = useFinanceData(user?.id);
 
   const hoje = new Date();
-  const [inicio, setInicio] = useState(() => iso(hoje));
-  const [fim, setFim] = useState(() => {
+  const [inicio, setInicio] = useState<Date>(() => hoje);
+  const [fim, setFim] = useState<Date>(() => {
     const d = new Date();
     d.setDate(d.getDate() + 30);
-    return iso(d);
+    return d;
   });
-  const [mes, setMes] = useState(() => iso(hoje).slice(0, 7));
+  const [appliedInicio, setAppliedInicio] = useState<Date>(() => hoje);
+  const [appliedFim, setAppliedFim] = useState<Date>(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 30);
+    return d;
+  });
+
+  const [mes, setMes] = useState<Date>(() => new Date(hoje.getFullYear(), hoje.getMonth(), 1));
+  const [appliedMes, setAppliedMes] = useState<Date>(() => new Date(hoje.getFullYear(), hoje.getMonth(), 1));
 
   const meses = useMemo(() => (data ? monthlyFlow(data) : []), [data]);
 
   const periodo = useMemo(() => {
     if (!data) return { receitas: 0, despesas: 0, saldoProjetado: 0 };
     const { total } = computeBalances(data);
+    const i = iso(appliedInicio);
+    const f = iso(appliedFim);
     const pend = data.lancamentos.filter(
-      (l) => l.status === "pendente" && l.data >= inicio && l.data <= fim,
+      (l) => l.status === "pendente" && l.data >= i && l.data <= f,
     );
     const receitas = pend
       .filter((l) => l.tipo === "receber")
       .reduce((a, l) => a + Number(l.valor), 0);
     const despesas = pend.filter((l) => l.tipo === "pagar").reduce((a, l) => a + Number(l.valor), 0);
     return { receitas, despesas, saldoProjetado: total + receitas - despesas };
-  }, [data, inicio, fim]);
+  }, [data, appliedInicio, appliedFim]);
 
   if (!data) return <p className="text-muted-foreground">{t("carregando")}</p>;
 
   const { total } = computeBalances(data);
   const f30 = buildForecast(data, 30);
-  const linha = meses.find((m) => m.mes === mes) ?? { mes, receitas: 0, despesas: 0 };
+  const mesKey = iso(appliedMes).slice(0, 7);
+  const linha = meses.find((m) => m.mes === mesKey) ?? { mes: mesKey, receitas: 0, despesas: 0 };
 
   return (
     <div className="flex flex-col gap-6">
@@ -71,40 +87,99 @@ function FluxoPage() {
             {money(periodo.saldoProjetado)}
           </p>
           <div className="mt-3 grid grid-cols-2 gap-2">
-            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-              {t("dataInicial")}
-              <input
-                type="date"
-                value={inicio}
-                onChange={(e) => setInicio(e.target.value)}
-                className="rounded-md border border-border bg-background px-2 py-1 text-xs text-foreground"
-              />
-            </label>
-            <label className="flex flex-col gap-1 text-[11px] text-muted-foreground">
-              {t("dataFinal")}
-              <input
-                type="date"
-                value={fim}
-                onChange={(e) => setFim(e.target.value)}
-                className="rounded-md border border-border bg-background px-2 py-1 text-xs text-foreground"
-              />
-            </label>
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] text-muted-foreground">{t("dataInicial")}</span>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="justify-start px-2 py-1 text-xs font-normal"
+                  >
+                    <CalendarIcon className="size-3.5" />
+                    {format(inicio, "PPP", { locale: dateLocale(lang) })}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={inicio}
+                    onSelect={(d) => d && setInicio(d)}
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-[11px] text-muted-foreground">{t("dataFinal")}</span>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="justify-start px-2 py-1 text-xs font-normal"
+                  >
+                    <CalendarIcon className="size-3.5" />
+                    {format(fim, "PPP", { locale: dateLocale(lang) })}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={fim}
+                    onSelect={(d) => d && setFim(d)}
+                    initialFocus
+                    className="pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
+          <Button
+            size="sm"
+            className="mt-3 w-full"
+            onClick={() => {
+              setAppliedInicio(inicio);
+              setAppliedFim(fim);
+            }}
+          >
+            <ListIcon className="size-4" />
+            {t("listar")}
+          </Button>
         </div>
       </div>
 
       <div className="glass overflow-x-auto">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-4">
           <p className="font-display text-sm font-bold">{t("fluxoMensal")}</p>
-          <label className="flex items-center gap-2 text-xs text-muted-foreground">
-            {t("mesSelecionado")}
-            <input
-              type="month"
-              value={mes}
-              onChange={(e) => setMes(e.target.value || iso(new Date()).slice(0, 7))}
-              className="rounded-md border border-border bg-background px-2 py-1 text-xs text-foreground"
-            />
-          </label>
+          <div className="flex items-center gap-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="justify-start px-2 py-1 text-xs font-normal">
+                  <CalendarIcon className="size-3.5" />
+                  {format(mes, "MMMM yyyy", { locale: dateLocale(lang) })}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={mes}
+                  onSelect={(d) => d && setMes(d)}
+                  initialFocus
+                  className="pointer-events-auto"
+                  defaultMonth={mes}
+                />
+              </PopoverContent>
+            </Popover>
+            <Button
+              size="sm"
+              variant="outline"
+              className="px-2 py-1 text-xs"
+              onClick={() => setAppliedMes(mes)}
+            >
+              <ListIcon className="size-3.5" />
+              {t("listar")}
+            </Button>
+          </div>
         </div>
         <table className="w-full min-w-[520px] text-sm">
           <thead>
@@ -141,6 +216,25 @@ function FluxoPage() {
       </div>
     </div>
   );
+}
+
+function dateLocale(lang: string) {
+  try {
+    const map: Record<string, () => Promise<any>> = {
+      "pt-BR": () => import("date-fns/locale/pt-BR"),
+      es: () => import("date-fns/locale/es"),
+      en: () => import("date-fns/locale/en-US"),
+      de: () => import("date-fns/locale/de"),
+      fr: () => import("date-fns/locale/fr"),
+      it: () => import("date-fns/locale/it"),
+    };
+    // date-fns locales are sync-importable in this build
+    const loader = map[lang] || map.en;
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    return require(loader().toString ? "" : "");
+  } catch {
+    return undefined;
+  }
 }
 
 function Card({ label, value, tone }: { label: string; value: string; tone: string }) {
