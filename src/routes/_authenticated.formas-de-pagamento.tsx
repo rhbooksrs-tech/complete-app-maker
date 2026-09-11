@@ -41,6 +41,7 @@ function FormasPage() {
   const [draft, setDraft] = useState<Draft | null>(null);
 
   const balances = data ? computeBalances(data).perForma : {};
+  const saldoAcumulado = data ? computeBalances(data).total : 0;
 
   async function save() {
     if (!draft?.nome) return;
@@ -108,6 +109,17 @@ function FormasPage() {
             </p>
           </div>
         ))}
+      </div>
+
+      <div className="glass glass-hover p-5">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            {t("saldoTotal")}
+          </p>
+        </div>
+        <p className="mt-3 font-display text-2xl font-extrabold text-gold">
+          {money(saldoAcumulado)}
+        </p>
       </div>
 
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
