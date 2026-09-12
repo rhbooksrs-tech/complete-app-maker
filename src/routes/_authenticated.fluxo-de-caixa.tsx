@@ -239,24 +239,7 @@ function FluxoPage() {
   );
 }
 
-function dateLocale(lang: string) {
-  try {
-    const map: Record<string, () => Promise<any>> = {
-      "pt-BR": () => import("date-fns/locale/pt-BR"),
-      es: () => import("date-fns/locale/es"),
-      en: () => import("date-fns/locale/en-US"),
-      de: () => import("date-fns/locale/de"),
-      fr: () => import("date-fns/locale/fr"),
-      it: () => import("date-fns/locale/it"),
-    };
-    // date-fns locales are sync-importable in this build
-    const loader = map[lang] || map.en;
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require(loader().toString ? "" : "");
-  } catch {
-    return undefined;
-  }
-}
+
 
 function Card({ label, value, tone }: { label: string; value: string; tone: string }) {
   return (
