@@ -1,6 +1,12 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { format } from "date-fns";
+import { format, type Locale } from "date-fns";
+import { ptBR as localePtBR } from "date-fns/locale/pt-BR";
+import { es as localeEs } from "date-fns/locale/es";
+import { enUS as localeEn } from "date-fns/locale/en-US";
+import { de as localeDe } from "date-fns/locale/de";
+import { fr as localeFr } from "date-fns/locale/fr";
+import { it as localeIt } from "date-fns/locale/it";
 import { CalendarIcon, ListIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useFinanceData } from "@/hooks/useFinance";
@@ -10,6 +16,20 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+const LOCALES: Record<string, Locale> = {
+  "pt-BR": localePtBR,
+  es: localeEs,
+  en: localeEn,
+  de: localeDe,
+  fr: localeFr,
+  it: localeIt,
+};
+
+function dateLocale(lang: string): Locale {
+  return LOCALES[lang] ?? localeEn;
+}
+
 
 export const Route = createFileRoute("/_authenticated/fluxo-de-caixa")({
   head: () => ({
@@ -218,24 +238,7 @@ function FluxoPage() {
   );
 }
 
-function dateLocale(lang: string) {
-  try {
-    const map: Record<string, () => Promise<any>> = {
-      "pt-BR": () => import("date-fns/locale/pt-BR"),
-      es: () => import("date-fns/locale/es"),
-      en: () => import("date-fns/locale/en-US"),
-      de: () => import("date-fns/locale/de"),
-      fr: () => import("date-fns/locale/fr"),
-      it: () => import("date-fns/locale/it"),
-    };
-    // date-fns locales are sync-importable in this build
-    const loader = map[lang] || map.en;
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require(loader().toString ? "" : "");
-  } catch {
-    return undefined;
-  }
-}
+
 
 function Card({ label, value, tone }: { label: string; value: string; tone: string }) {
   return (
