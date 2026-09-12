@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { format } from "date-fns";
+import { format, type Locale } from "date-fns";
 import { ptBR as localePtBR } from "date-fns/locale/pt-BR";
 import { es as localeEs } from "date-fns/locale/es";
 import { enUS as localeEn } from "date-fns/locale/en-US";
@@ -26,11 +26,10 @@ const LOCALES: Record<string, Locale> = {
   it: localeIt,
 };
 
-import type { Locale } from "date-fns";
-
 function dateLocale(lang: string): Locale {
   return LOCALES[lang] ?? localeEn;
 }
+
 
 export const Route = createFileRoute("/_authenticated/fluxo-de-caixa")({
   head: () => ({
