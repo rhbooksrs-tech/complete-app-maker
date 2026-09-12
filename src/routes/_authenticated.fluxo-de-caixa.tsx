@@ -1,6 +1,12 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
+import { ptBR as localePtBR } from "date-fns/locale/pt-BR";
+import { es as localeEs } from "date-fns/locale/es";
+import { enUS as localeEn } from "date-fns/locale/en-US";
+import { de as localeDe } from "date-fns/locale/de";
+import { fr as localeFr } from "date-fns/locale/fr";
+import { it as localeIt } from "date-fns/locale/it";
 import { CalendarIcon, ListIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useFinanceData } from "@/hooks/useFinance";
@@ -10,6 +16,21 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+const LOCALES: Record<string, Locale> = {
+  "pt-BR": localePtBR,
+  es: localeEs,
+  en: localeEn,
+  de: localeDe,
+  fr: localeFr,
+  it: localeIt,
+};
+
+import type { Locale } from "date-fns";
+
+function dateLocale(lang: string): Locale {
+  return LOCALES[lang] ?? localeEn;
+}
 
 export const Route = createFileRoute("/_authenticated/fluxo-de-caixa")({
   head: () => ({
