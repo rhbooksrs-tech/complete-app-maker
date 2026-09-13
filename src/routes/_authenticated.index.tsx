@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { ArrowDownCircle, ArrowUpCircle, PiggyBank, TrendingUp } from "lucide-react";
+import { ArrowDownCircle, ArrowUpCircle, BellRing, PiggyBank, TrendingUp } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useFinanceData } from "@/hooks/useFinance";
 import { useI18n } from "@/lib/i18n";
-import { buildForecast, computeBalances } from "@/lib/finance";
+import { buildAlerts, buildForecast, computeBalances } from "@/lib/finance";
+
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/")({
@@ -36,6 +37,8 @@ function Dashboard() {
   const { perForma, total, aReceberPendente, aPagarPendente } = computeBalances(data);
   const f30 = buildForecast(data, 30);
   const f90 = buildForecast(data, 90);
+  const alertas = buildAlerts(data, 7);
+
   const proximosPagar = [...data.lancamentos]
     .filter((l) => l.status === "pendente" && l.tipo === "pagar")
     .sort((a, b) => a.data.localeCompare(b.data))
