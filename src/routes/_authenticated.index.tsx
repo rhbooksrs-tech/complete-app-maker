@@ -54,7 +54,24 @@ function Dashboard() {
 
   return (
     <div className="flex flex-col gap-6">
+      {alertas.length > 0 && (
+        <Link
+          to="/notificacoes"
+          className="glass glass-hover flex flex-wrap items-center gap-3 border-l-4 border-l-gold p-4"
+        >
+          <BellRing className="h-5 w-5 text-gold" />
+          <p className="text-sm font-semibold">
+            {alertas.length} · {t("vencimentosProximos")}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {alertas[0].nome} — {date(alertas[0].data)} · {money(Number(alertas[0].valor))}
+          </p>
+          <span className="ml-auto text-xs font-semibold text-gold underline">{t("verTodos")}</span>
+        </Link>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
         {cards.map(({ label, value, icon: Icon, tone }) => (
           <div key={label} className="glass glass-hover p-5">
             <div className="flex items-start justify-between">
