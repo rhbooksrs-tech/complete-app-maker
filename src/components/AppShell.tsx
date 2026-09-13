@@ -12,7 +12,9 @@ import {
   Lightbulb,
   Settings,
   LogOut,
+  Bell,
   Menu,
+
   X,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
