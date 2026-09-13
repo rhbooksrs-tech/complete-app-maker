@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 
 export const NAV = [
   { to: "/", key: "dashboard", icon: LayoutDashboard },
+  { to: "/notificacoes", key: "notificacoes", icon: Bell },
   { to: "/contas-a-pagar", key: "contasPagar", icon: ArrowUpCircle },
   { to: "/contas-a-receber", key: "contasReceber", icon: ArrowDownCircle },
   { to: "/formas-de-pagamento", key: "formasPagamento", icon: Wallet },
@@ -31,6 +32,7 @@ export const NAV = [
   { to: "/dicas", key: "dicas", icon: Lightbulb },
   { to: "/configuracoes", key: "configuracoes", icon: Settings },
 ] as const;
+
 
 export function AppShell({ username, children }: { username: string; children: ReactNode }) {
   const { t } = useI18n();

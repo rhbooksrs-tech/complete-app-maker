@@ -20,6 +20,7 @@ import { Route as AuthenticatedDicasRouteImport } from './routes/_authenticated.
 import { Route as AuthenticatedFluxoDeCaixaRouteImport } from './routes/_authenticated.fluxo-de-caixa'
 import { Route as AuthenticatedFormasDePagamentoRouteImport } from './routes/_authenticated.formas-de-pagamento'
 import { Route as AuthenticatedGraficosRouteImport } from './routes/_authenticated.graficos'
+import { Route as AuthenticatedNotificacoesRouteImport } from './routes/_authenticated.notificacoes'
 import { Route as AuthenticatedTransferenciasRouteImport } from './routes/_authenticated.transferencias'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -81,6 +82,12 @@ const AuthenticatedGraficosRoute = AuthenticatedGraficosRouteImport.update({
   path: '/graficos',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedNotificacoesRoute =
+  AuthenticatedNotificacoesRouteImport.update({
+    id: '/notificacoes',
+    path: '/notificacoes',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedTransferenciasRoute =
   AuthenticatedTransferenciasRouteImport.update({
     id: '/transferencias',
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/fluxo-de-caixa': typeof AuthenticatedFluxoDeCaixaRoute
   '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
   '/graficos': typeof AuthenticatedGraficosRoute
+  '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/transferencias': typeof AuthenticatedTransferenciasRoute
 }
 export interface FileRoutesByTo {
@@ -111,6 +119,7 @@ export interface FileRoutesByTo {
   '/fluxo-de-caixa': typeof AuthenticatedFluxoDeCaixaRoute
   '/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
   '/graficos': typeof AuthenticatedGraficosRoute
+  '/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/transferencias': typeof AuthenticatedTransferenciasRoute
   '/': typeof AuthenticatedIndexRoute
 }
@@ -126,6 +135,7 @@ export interface FileRoutesById {
   '/_authenticated/fluxo-de-caixa': typeof AuthenticatedFluxoDeCaixaRoute
   '/_authenticated/formas-de-pagamento': typeof AuthenticatedFormasDePagamentoRoute
   '/_authenticated/graficos': typeof AuthenticatedGraficosRoute
+  '/_authenticated/notificacoes': typeof AuthenticatedNotificacoesRoute
   '/_authenticated/transferencias': typeof AuthenticatedTransferenciasRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/fluxo-de-caixa'
     | '/formas-de-pagamento'
     | '/graficos'
+    | '/notificacoes'
     | '/transferencias'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -154,6 +165,7 @@ export interface FileRouteTypes {
     | '/fluxo-de-caixa'
     | '/formas-de-pagamento'
     | '/graficos'
+    | '/notificacoes'
     | '/transferencias'
     | '/'
   id:
@@ -168,6 +180,7 @@ export interface FileRouteTypes {
     | '/_authenticated/fluxo-de-caixa'
     | '/_authenticated/formas-de-pagamento'
     | '/_authenticated/graficos'
+    | '/_authenticated/notificacoes'
     | '/_authenticated/transferencias'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
@@ -256,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGraficosRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/notificacoes': {
+      id: '/_authenticated/notificacoes'
+      path: '/notificacoes'
+      fullPath: '/notificacoes'
+      preLoaderRoute: typeof AuthenticatedNotificacoesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/transferencias': {
       id: '/_authenticated/transferencias'
       path: '/transferencias'
@@ -275,6 +295,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedFluxoDeCaixaRoute: typeof AuthenticatedFluxoDeCaixaRoute
   AuthenticatedFormasDePagamentoRoute: typeof AuthenticatedFormasDePagamentoRoute
   AuthenticatedGraficosRoute: typeof AuthenticatedGraficosRoute
+  AuthenticatedNotificacoesRoute: typeof AuthenticatedNotificacoesRoute
   AuthenticatedTransferenciasRoute: typeof AuthenticatedTransferenciasRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
@@ -288,6 +309,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedFluxoDeCaixaRoute: AuthenticatedFluxoDeCaixaRoute,
   AuthenticatedFormasDePagamentoRoute: AuthenticatedFormasDePagamentoRoute,
   AuthenticatedGraficosRoute: AuthenticatedGraficosRoute,
+  AuthenticatedNotificacoesRoute: AuthenticatedNotificacoesRoute,
   AuthenticatedTransferenciasRoute: AuthenticatedTransferenciasRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
