@@ -167,3 +167,37 @@ export function buildFinanceContext(data: FinanceData, currency: string, lang = 
     formasDePagamentoCadastradas: data.formas.map((f) => f.nome),
   };
 }
+
+export type Alerta = {
+  id: string;
+  nome: string;
+  tipo: "pagar" | "receber";
+  valor: number;
+  data: string;
+  dias: number;
+  nivel: "vencido" | "hoje" | "proximo";
+  categoria?: string | undefined;
+};
+
+export function buildAlerts(data: FinanceData, days = 7): Alerta[] {
+  const hoje = new Date(`${todayISO()}T00:00:00`).getTime();
+  const dia = 86400000;
+  return data.lancamentos
+    .filter((l) => l.status === "pendente")
+    .map((l) => {
+      const dias = Math.round((new Date(`${l.data}T00:00:00`).getTime() - hoje) / dia);
+      const nivel: Alerta["nivel"] = dias < 0 ? "vencido" : dias === 0 ? "hoje" : "proximo";
+      return {
+        id: l.id,
+        nome: l.nome,
+        tipo: l.tipo,
+        valor: Number(l.valor),
+        data: l.data,
+        dias,
+        nivel,
+        categoria: data.categorias.find((c) => c.id === l.categoria_id)?.nome,
+      };
+    })
+    .filter((a) => a.dias <= days)
+    .sort((a, b) => a.dias - b.dias);
+}
