@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -196,6 +196,16 @@ function AuthPage() {
             ))}
           </select>
         </form>
+
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          <Link to="/termos" className="underline">
+            Termos de Uso
+          </Link>
+          {" · "}
+          <Link to="/privacidade" className="underline">
+            Política de Privacidade
+          </Link>
+        </p>
       </div>
     </div>
   );
